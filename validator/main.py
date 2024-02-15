@@ -10,7 +10,7 @@ from guardrails.validator_base import (
 )
 
 
-@register_validator(name="cartesia/mentions-drugs", data_type="string")
+@register_validator(name="cartesia/mentions_drugs", data_type="string")
 class MentionsDrugs(Validator):
     """Validates that the generated text does not contain any drug names.
 
