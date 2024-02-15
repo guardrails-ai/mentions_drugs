@@ -1,21 +1,59 @@
-# to run these, run 
-# pytest test/test-validator.py
-
 from guardrails import Guard
+from pydantic import BaseModel, Field
 from validator import MentionsDrugs
+import pytest
 
-# We use 'refrain' as the validator's fail action,
-#  so we expect failures to always result in a guarded output of None
-# Learn more about corrective actions here:
-#  https://www.guardrailsai.com/docs/concepts/output/#%EF%B8%8F-specifying-corrective-actions
-# guard = Guard.from_string(validators=[RegexMatch(regex="a.*", match_type="fullmatch", on_fail="refrain")])
 
-# def test_pass():
-#   test_output = "a test value"
-#   raw_output, guarded_output, *rest = guard.parse(test_output)
-#   assert(guarded_output is test_output)
+# Create a pydantic model with a field that uses the custom validator
+class ValidatorTestObject(BaseModel):
+    text: str = Field(validators=[MentionsDrugs(on_fail="exception")])
 
-# def test_fail():
-#   test_output = "b test value"
-#   raw_output, guarded_output, *rest = guard.parse(test_output)
-#   assert(guarded_output is None)
+
+# Test happy path
+@pytest.mark.parametrize(
+    "value",
+    [
+        """
+        {
+            "text": "Take this medicine with food. It's very effective and has no side effects. It's a great medicine."
+        }
+        """,
+        """
+        {
+            "text": "I'm feeling better after taking the medicine. I'm glad I took it."
+        }
+        """,
+    ],
+)
+def test_happy_path(value):
+    """Test the happy path for the validator."""
+    # Create a guard from the pydantic model
+    guard = Guard.from_pydantic(output_class=ValidatorTestObject)
+    response = guard.parse(value)
+    print("Happy path response", response)
+    assert response.validation_passed is True
+
+
+# Test fail path
+@pytest.mark.parametrize(
+    "value",
+    [
+        """
+        {
+            "text": "Take one aspirin every 4 hours. It's a great medicine."
+        }
+        """,
+        """
+        {
+            "text": "You should take Tylenol with codeine for pain."
+        }
+        """,
+    ],
+)
+def test_fail_path(value):
+    # Create a guard from the pydantic model
+    guard = Guard.from_pydantic(output_class=ValidatorTestObject)
+
+    with pytest.raises(Exception):
+        response = guard.parse(value)
+        print("Fail path response", response)

@@ -3094,22 +3094,3 @@ class MentionsDrugs(Validator):
                 error_message="The generated text contains a drug name.",
             )
         return PassResult()
-
-
-# Run tests via `pytest -rP ./test.py`
-class TestMentionsDrugs:
-    def test_success_case(self):
-        validator = MentionsDrugs()
-        result = validator.validate("Please take this medicine.", {})
-        assert isinstance(result, PassResult) is True
-
-    def test_failure_case(self):
-        validator = MentionsDrugs()
-        result = validator.validate("Take one aspirin.", {})
-        assert isinstance(result, FailResult) is True
-
-
-if __name__ == "__main__":
-    validator = MentionsDrugs()
-    print(validator.validate("Please take this medicine.", {}))
-    print(validator.validate("Take one aspirin.", {}))
