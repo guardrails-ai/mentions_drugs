@@ -3,7 +3,7 @@ name = "mentions_drugs"
 version = "0.0.0"
 description = "A validator that checks whether any drugs are mentioned in a given LLM-generated text."
 authors = [
-    {name = "Guardrails AI", email = "contact@guardrailsai.com"}
+    {name = "Cartesia AI", email = "join@cartesia.ai"}
 ]
 license = {file = "LICENSE"}
 readme = "README.md"
