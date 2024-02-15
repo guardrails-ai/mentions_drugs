@@ -18,7 +18,7 @@ class MentionsDrugs(Validator):
 
     | Property                     | Description                   |
     |------------------------------|-------------------------------|
-    | Name for `format` attribute  | `cartesia/mentions-drugs`  |
+    | Name for `format` attribute  | `cartesia/mentions_drugs`  |
     | Supported data types         | `string`                      |
     | Programmatic fix             | N/A                           |
     """
