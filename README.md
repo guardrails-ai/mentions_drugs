@@ -10,15 +10,15 @@
 
 ## Description
 
-This validator checks if an LLM-generated text contains names of any drugs. It uses a list of drug names to check for matches in the input text. If a match is found, the validator fails.
+This validator checks if an LLM-generated text contains names of any drugs. It uses a pre-specified list of drug names to check for matches in the input text. If a match is found, the validator fails.
 
 ## Requirements
-- Dependencies: None
+* Dependencies: None
 
 ## Installation
 
 ```bash
-$ guardrails hub install hub://cartesia/mentions_drugs
+guardrails hub install hub://cartesia/mentions_drugs
 ```
 
 ## Usage Examples
@@ -29,21 +29,26 @@ In this example, we use the `mentions_drugs` validator on any LLM generated text
 
 ```python
 # Import Guard and Validator
-from guardrails.hub import MentionsDrugs
 from guardrails import Guard
+from guardrails.hub import MentionsDrugs
 
-# Initialize Validator
-val = MentionsDrugs()
+# Setup the Guard with the validator
+guard = Guard().use(MentionsDrugs, on_fail="exception")
 
-# Setup Guard
-guard = Guard.from_string(
-    validators=[val, ...],
-)
+# Test passing response
+guard.validate("You should take this medicine every day after breakfast.")
 
-# Pass LLM output through guard
-guard.parse("You should take this medicine every day after breakfast.")  # Pass
-guard.parse("Take one dose of aspirin each night before going to sleep.")  # Fail
-
+# Test failing response
+try:
+    response = guard.validate(
+        "Take one dose of aspirin each night before going to sleep."
+    )
+except Exception as e:
+    print(e)
+```
+Output:
+```console
+Validation failed for field with errors: The generated text contains a drug name.
 ```
 
 ## API Reference
@@ -61,7 +66,7 @@ Initializes a new instance of the Validator class.
 
 <br/>
 
-**`__call__(self, value, metadata={}) → ValidationOutcome`**
+**`__call__(self, value, metadata={}) → ValidationResult`**
 
 <ul>
 
