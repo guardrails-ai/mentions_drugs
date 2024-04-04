@@ -3081,7 +3081,7 @@ class MentionsDrugs(Validator):
     def __init__(self, on_fail: Optional[Callable] = None, **kwargs):
         super().__init__(on_fail, **kwargs)
 
-    def validate(self, value: str, metadata: Dict[str, Any]) -> ValidationResult:
+    def validate(self, value: str, metadata: Dict[str, Any] = {}) -> ValidationResult:
         """Validate that the generated text does not contain a drug name."""
         # Split and lowercase the generated text
         value = value.lower()
