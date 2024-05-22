@@ -1,7 +1,6 @@
 ## Overview
 
 | Developed by | Cartesia AI |
-| --- | --- |
 | Date of development | Feb 15, 2024 |
 | Validator type | Format |
 | Blog |  |
@@ -10,10 +9,13 @@
 
 ## Description
 
+### Intended Use
 This validator checks if an LLM-generated text contains names of any drugs. It uses a pre-specified list of drug names to check for matches in the input text. If a match is found, the validator fails.
 
-## Requirements
-* Dependencies: None
+### Requirements
+
+* Dependencies:
+    - guardrails-ai>=0.4.0
 
 ## Installation
 
@@ -51,7 +53,7 @@ Output:
 Validation failed for field with errors: The generated text contains a drug name.
 ```
 
-## API Reference
+# API Reference
 
 **`__init__(self, on_fail="noop")`**
 <ul>
