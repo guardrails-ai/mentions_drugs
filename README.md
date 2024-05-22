@@ -20,7 +20,7 @@ This validator checks if an LLM-generated text contains names of any drugs. It u
 ## Installation
 
 ```bash
-guardrails hub install hub://cartesia/mentions_drugs
+$ guardrails hub install hub://cartesia/mentions_drugs
 ```
 
 ## Usage Examples
